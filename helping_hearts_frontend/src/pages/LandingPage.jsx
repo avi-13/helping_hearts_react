@@ -36,7 +36,7 @@ const LandingPage = () => {
   return (
     <div>
       <main>
-        <section className="bg-gray-50 flex justify-center py-20 text-center mt-20">
+        <section className="bg-gray-50 flex justify-center py-20 pb-[0] text-center mt-20">
           <div className="container px-4">
             <div className="flex flex-col md:flex-row items-center">
               <div className="md:w-2/3 flex flex-col items-center text-center md:text-left">
@@ -150,10 +150,13 @@ const LandingPage = () => {
 
         <section className="py-16">
           <div className="container mx-auto px-4">
+            <span className="flex flex-row items-center jusi">
             <h2 className="text-3xl font-bold text-center text-gray-800">
               List of Old Age Homes
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <p className="text-blue-500 underline">View all</p>
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
               {Array(4)
                 .fill({
                   title: "Old Age Home",
