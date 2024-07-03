@@ -1,85 +1,109 @@
-import React from "react";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { loginUserApi } from "../apis/api";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginNow = (e) => {
+    const loginData = new FormData();
+    loginData.append("email", email);
+    loginData.append("password", password);
+
+    e.preventDefault();
+    loginUserApi(loginData)
+      .then((res) => {
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          localStorage.setItem("token", res.data.userData);
+          const jsonDecode = JSON.stringify(res.data.userData);
+          localStorage.setItem("user", jsonDecode);
+          const userr = res.data.userData;
+          if (userr.isAdmin === false && userr?.isOrganization === false) {
+            navigate("/");
+            console.log(userr.isAdmin, userr?.isOrganization);
+            return;
+          } else if (userr.isAdmin === false && userr?.isOrganization === true) {
+            navigate("/hh/dashboard");
+            window.location.reload();
+            return;
+          } else {
+            navigate("/admin-dashboard");
+            window.location.reload();
+            return;
+          }
+        }
+      })
+      .catch((err) => {
+        toast.error("Server Error");
+        console.log(err.message);
+      });
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-    <div className="bg-[#C7E3C2] shadow-lg rounded-lg flex">
-      <div className="hidden md:flex md:w-1/2 items-center justify-center rounded-l-lg" >
-          <img src={"assets/images/loginImage.png"} alt="Diversity" className="h-[630px] rounded-lg object-cover" />
-      </div>
-      <div className="w-full md:w-1/2 p-8">
-        <h2 className="text-2xl font-semibold text-black text-center">Create Your Account</h2>
-        <form className="mt-4">
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="full-name">
-              Full Name
-            </label>
-            <input
-              id="full-name"
-              type="text"
-              placeholder="Full Name"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#8BC53E]"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="number">
-              Number
-            </label>
-            <input
-              id="number"
-              type="text"
-              placeholder="Number"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#8BC53E]"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Email"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#8BC53E]"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#8BC53E]"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2" htmlFor="confirm-password">
-              Confirm Password
-            </label>
-            <input
-              id="confirm-password"
-              type="password"
-              placeholder="Confirm Password"
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-[#8BC53E]"
-            />
-          </div>
-          <div className="mt-6">
-            <button className="w-full px-4 py-2 text-white bg-[#8BC53E] rounded-lg hover:bg-green-600 focus:outline-none focus:bg-green-600">
-              SIGNUP
-            </button>
-          </div>
-        </form>
-        <p className="mt-4 text-center">
-          <a href="/login" className="text-sm text-[#8BC53E] hover:text-green-700">
-            Already Have An Account? Login
-          </a>
-        </p>
+    <div className="flex items-center mx-20 my-32 justify-center bg-white">
+      <div className="bg-[#C7E3C2] shadow-md rounded-lg flex flex-col items-center md:flex-row max-w-4xl w-full">
+        <div className="w-full md:w-1/2">
+          <img
+            src="assets/images/login.png"
+            alt="Elderly hands"
+            className="object-cover w-full h-64 md:h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none"
+          />
+        </div>
+        <div className="w-full md:w-1/2 p-8">
+          <h2 className="mb-4 text-2xl font-bold text-center">
+            Login From Here
+          </h2>
+          <form>
+            <div className="mb-4">
+              <label className="block text-gray-700">Email</label>
+              <div className="relative">
+                <span className="absolute bottom-3 flex items-center pl-3">
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="text-gray-400"
+                  />
+                </span>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  className="w-full pl-10 px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-[#8BC53E]"
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Password</label>
+              <div className="relative">
+                <span className="absolute bottom-3 flex items-center pl-3">
+                  <FontAwesomeIcon icon={faLock} className="text-gray-400" />
+                </span>
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  className="w-full pl-10 px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-[#8BC53E]"
+                />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-center">
+              <button
+                onClick={loginNow}
+                className="px-6 w-full py-2 mt-4 text-white bg-[#8BC53E] rounded-md hover:bg-[#8BC53E]"
+              >
+                LOGIN
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

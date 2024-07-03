@@ -1,9 +1,9 @@
 import React from "react";
 
-const profile = () => {
+const Profile = () => {
   return (
     <>
-      <section className="py-10 my-auto dark:bg-gray-900">
+      <section className="py-10 my-32 min-h-[100vh] dark:bg-gray-900">
         <div className="lg:w-[80%] md:w-[90%] xs:w-[96%] mx-auto flex gap-4">
           <div className="lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40">
             <div className="">
@@ -67,7 +67,7 @@ const profile = () => {
                         Cover
                         <svg
                           data-slot="icon"
-                          className="w-6 h-5 text-blue-700"
+                          className="w-6 h-5 text-[#8BC53E]"
                           fill="none"
                           stroke-width="1.5"
                           stroke="currentColor"
@@ -135,7 +135,7 @@ const profile = () => {
                     />
                   </div>
                 </div>
-                <div className="w-full rounded-lg bg-blue-500 mt-4 text-white text-lg font-semibold">
+                <div className="w-full rounded-lg bg-[#8BC53E] mt-4 text-white text-lg font-semibold">
                   <button type="submit" className="w-full p-4">
                     Submit
                   </button>
@@ -149,4 +149,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

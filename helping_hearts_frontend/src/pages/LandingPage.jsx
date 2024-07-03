@@ -1,17 +1,38 @@
 import {
   faAmbulance,
   faHandHoldingHeart,
-  faHospital,
   faKitMedical,
   faRecordVinyl,
-  faSquareVirus,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Modal } from "flowbite-react";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { fetchAllOrganizationsApi } from "../apis/api";
 
 const LandingPage = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [orph, setOrph] = useState([]);
+  const [hm, setHm] = useState([]);
+  const onCloseModal = () => setOpenModal(false);
+
+  const fetchOrganizations = async () => {
+    try {
+      const response = await fetchAllOrganizationsApi();
+      setOrph(response.data?.fewOrphanages);
+      setHm(response.data?.fewHomes);
+      console.log(response);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
+
   const services = [
     {
       icon: faUser,
@@ -48,10 +69,36 @@ const LandingPage = () => {
                   Old age homes offer a nurturing environment where seniors can
                   enjoy their golden years with dignity and respect.
                 </p>
-                <button className="mt-8 w-3/4 md:w-1/2 text-white bg-[#8BC53E] px-6 py-3 rounded">
+                <button
+                  onClick={(e) => setOpenModal(true)}
+                  className="mt-8 w-3/4 md:w-1/2 text-white bg-[#8BC53E] px-6 py-3 rounded"
+                >
                   Register Your Orphanage / Old Age Home
                 </button>
               </div>
+              <Modal show={openModal} size="2xl" onClose={onCloseModal} popup>
+                <Modal.Header>
+                  <h3 className="text-2xl text-center font-semibold text-gray-900 dark:text-white">
+                    Select Your Organization
+                  </h3>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="w-full flex flex-row gap-14 justify-center">
+                    <Link
+                      to={"/orphanage-form"}
+                      className="px-6 py-2 mt-4 bg-[#8BC53E] text-white font-semibold rounded-md shadow-md hover:bg-[#6aa023] transition duration-300"
+                    >
+                      Register Your Orphanage
+                    </Link>
+                    <Link
+                      to={"/orphanage-form"}
+                      className="px-6 py-2 mt-4 bg-[#8BC53E] text-white font-semibold rounded-md shadow-md hover:bg-[#6aa023] transition duration-300"
+                    >
+                      Register Your Old Age Home
+                    </Link>
+                  </div>
+                </Modal.Body>
+              </Modal>
               <div className="md:w-1/3 mt-8 md:mt-0">
                 <img
                   src="assets/images/hmpage.png"
@@ -114,7 +161,7 @@ const LandingPage = () => {
             </div>
             <div className="flex flex-col items-center text-center p-4 border rounded shadow">
               <div className="mb-2">
-              <FontAwesomeIcon
+                <FontAwesomeIcon
                   icon={faHandHoldingHeart}
                   className="text-4xl items-center text-[#8BC53E]"
                 />
@@ -127,7 +174,7 @@ const LandingPage = () => {
             </div>
             <div className="flex flex-col items-center text-center p-4 border rounded shadow">
               <div className="mb-2">
-              <FontAwesomeIcon
+                <FontAwesomeIcon
                   icon={faKitMedical}
                   className="text-4xl items-center text-[#8BC53E]"
                 />
@@ -137,7 +184,7 @@ const LandingPage = () => {
             </div>
             <div className="flex flex-col items-center text-center p-4 border rounded shadow">
               <div className="mb-2">
-              <FontAwesomeIcon
+                <FontAwesomeIcon
                   icon={faRecordVinyl}
                   className="text-4xl items-center text-[#8BC53E]"
                 />
@@ -150,69 +197,66 @@ const LandingPage = () => {
 
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <span className="flex flex-row items-center jusi">
-            <h2 className="text-3xl font-bold text-center text-gray-800">
-              List of Old Age Homes
-            </h2>
-            <p className="text-blue-500 underline">View all</p>
+            <span className="flex flex-row items-center justify-between">
+              <h2 className="text-3xl font-bold text-center text-gray-800">
+                List of Old Age Homes
+              </h2>
+              <Link to={"/home-list"} className="text-blue-500 underline">
+                View all
+              </Link>
             </span>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
-              {Array(4)
-                .fill({
-                  title: "Old Age Home",
-                  description: "Description",
-                  address: "Address",
-                })
-                .map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-white p-6 rounded-lg shadow-md"
-                  >
+              {hm?.length > 0 ? (
+                hm.map((item, index) => (
+                  <div key={index} className="bg-white rounded-lg shadow-md">
                     <img
                       src="assets/images/or.png"
                       alt="Old Age Home"
                       className="w-full h-40 object-cover rounded-md"
                     />
-                    <h3 className="mt-4 text-xl font-semibold text-gray-800">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-gray-600">{item.description}</p>
-                    <p className="mt-2 text-gray-600">{item.address}</p>
+                    <div className="p-2">
+                      <h3 className="mt-4 text-xl font-semibold text-gray-800">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 text-gray-600">{item.description}</p>
+                      <p className="mt-2 text-gray-600">{item.address}</p>
+                    </div>
                   </div>
-                ))}
+                ))
+              ) : (
+                <p>No any old age homes found</p>
+              )}
             </div>
           </div>
         </section>
 
-        <section className="py-16 bg-gray-50">
+        <section className="py-16">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center text-gray-800">
-              List of Orphanages
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-              {Array(4)
-                .fill({
-                  title: "Orphanages",
-                  description: "Description",
-                  address: "Address",
-                })
-                .map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-white p-6 rounded-lg shadow-md"
-                  >
-                    <img
-                      src="assets/images/or.png"
-                      alt="Orphanage"
-                      className="w-full h-40 object-cover rounded-md"
-                    />
+            <span className="flex flex-row items-center justify-between">
+              <h2 className="text-3xl font-bold text-center text-gray-800">
+                List of Orphanages
+              </h2>
+              <Link to={"/orphanage-list"} className="text-blue-500 underline">
+                View all
+              </Link>
+            </span>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
+              {orph?.map((item, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-md">
+                  <img
+                    src="assets/images/or.png"
+                    alt="Old Age Home"
+                    className="w-full h-40 object-cover rounded-md"
+                  />
+                  <div className="p-2">
                     <h3 className="mt-4 text-xl font-semibold text-gray-800">
                       {item.title}
                     </h3>
                     <p className="mt-2 text-gray-600">{item.description}</p>
                     <p className="mt-2 text-gray-600">{item.address}</p>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
