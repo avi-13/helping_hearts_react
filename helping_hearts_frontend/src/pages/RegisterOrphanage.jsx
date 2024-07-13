@@ -447,21 +447,21 @@ const OrphanageRegistrationForm = () => {
             </div>
             <div className="col-span-3 mt-4">
               <button
-              onInput={(e) => {
-                const value = e.target.value;
-                if (value < 0) {
-                  e.target.value = 0;
-                }
-                setOrphanageContactNumber(e.target.value);
-              }}
-                onClick={registerOrphanage}
-                className="w-full bg-[#8BC53E] text-white font-semibold rounded-md py-2 shadow-md hover:bg-[#6aa023] transition duration-300"
-              >
-                {isLoading ? (
-                  <CircularProgress size={20} color="inherit" />
-                ) : (
-                  "Register Your Orphanage"
-                )}
+                onInput={(e) => {
+                  const value = e.target.value;
+                  if (value < 0) {
+                    e.target.value = 0;
+                  }
+                  setOrphanageContactNumber(e.target.value);
+                }}
+                  onClick={registerOrphanage}
+                  className="w-full bg-[#8BC53E] text-white font-semibold rounded-md py-2 shadow-md hover:bg-[#6aa023] transition duration-300"
+                >
+                  {isLoading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    "Register Your Orphanage"
+                  )}
               </button>
             </div>
           </div>

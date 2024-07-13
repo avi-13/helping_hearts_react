@@ -17,11 +17,11 @@ export const sendOtpApi = (data) => Api.post("/api/user/send_otp", data);
 
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 
-export const updateUser = (id, data) =>
+export const updateUserApi = (id, data) =>
   Api.put(`/api/user/updateUser/${id}`, data);
 
 export const fetchAllUsersApi = (data) =>
-  Api.get("/api/user/getAllUsers", data);
+  Api.get("/api/user/get-all-users", data);
 
 export const getMyRequestApi = (id) =>
   Api.get(`/api/user/get_my_request/${id}`);
@@ -43,6 +43,25 @@ export const registerOrganizationApi = (data) => Api.post("/api/org/registerOrga
 export const fetchAllOrganizationsApi = (data) => Api.get("/api/org/get-all-organization", data);
 
 export const fetchSingleOrganizationApi = (id) => Api.get(`/api/org/single-organization/${id}`);
+
+
+export const updateOrganizationApi = (id, data) => Api.put(`/api/org/update-organization/${id}`, data);
+
+
+
+// ======================================> Donation api <===============================
+
+export const createDonationApi = (data) => Api.post("/api/donation/add-donation", data);
+
+export const getMyDonationApi = (id) => Api.get(`/api/donation/my-donation/${id}`);
+
+export const getSingleDonationApi = (id) => Api.get(`/api/donation/donation/${id}`);
+
+export const deleteDonationApi = (id) => Api.delete(`/api/donation/delete-donation/${id}`);
+
+export const updateDonationApi = (id, data) => Api.put(`/api/donation/update-donation/${id}`, data);
+
+// export const getDonationApi = (data) => Api.get("/api/donation/get-all-donation", data);
 
 
 
@@ -157,8 +176,12 @@ export const updateShowRequestApi = (data) =>
 export const sendMessageApi = (data) =>
   Api.post("/api/contact/send-message", data);
 
-export const getContactUsApi = (data) =>
-  Api.get("/api/contact/getallcontact", data);
+// export const getContactUsApi = (data) =>
+//   Api.get("/api/contact/getallcontact", data);
+
+export const getAllContactByOrgApi = (id) =>
+  Api.get(`/api/contact/contact_by_org/${id}`);
+
 
 export const newsAPi = (data) =>
   Api.get(

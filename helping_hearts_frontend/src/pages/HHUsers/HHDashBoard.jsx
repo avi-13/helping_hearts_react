@@ -67,11 +67,11 @@ const HHDashBoard = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndexevent((prevIndex) => (prevIndex + 1) % campaignss.length);
+      setCurrentIndexevent((prevIndex) => (prevIndex + 1) % campaignss?.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndexevent, campaignss.length]);
+  }, [currentIndexevent, campaignss?.length]);
 
   return (
     <>
@@ -136,7 +136,7 @@ const HHDashBoard = () => {
                 </div>
                 <div className="p-6">
                   <div className="text-3xl font-bold text-gray-900 dark:text-gray-50">
-                    {availableDonrs.length}
+                    {availableDonrs?.length}
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     Availbale Donors
@@ -198,7 +198,7 @@ const HHDashBoard = () => {
                 </div>
                 <div className="p-6">
                   <div className="text-3xl font-bold text-gray-900 dark:text-gray-50">
-                    {campaignss.length}
+                    {campaignss?.length}
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
                     Upcoming Blood Drives

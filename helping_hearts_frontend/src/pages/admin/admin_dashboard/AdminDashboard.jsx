@@ -39,8 +39,8 @@ const AdminDashboard = () => {
         setData({
           bloodBank: bloodBankRes.data.mobbank,
           hospital: hospitalRes.data.allHospitals,
-          users: usersRes?.data?.users.length,
-          campaigns: campaignsRes?.data?.allCampaigns.length,
+          users: usersRes?.data?.users?.length,
+          campaigns: campaignsRes?.data?.allCampaigns?.length,
         });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
       <h2 className="text-center">Dashboard</h2>
       <div className="charts d-flex flex-row flex-wrap justify-content-between">
         <div className="chart">
-          <h3 className="text-center">BloodBank Data By Month ({currentYear})</h3>
+          <h3 className="text-center">Old Age Home By Month ({currentYear})</h3>
           <LineChart width={500} height={300} data={bloodBankData}>
             <XAxis dataKey="name" />
             <YAxis />
@@ -101,7 +101,7 @@ const AdminDashboard = () => {
           </LineChart>
         </div>
         <div className="chart">
-          <h3 className="text-center">Hospitals Added By Month ({currentYear})</h3>
+          <h3 className="text-center">Orphanages Added By Month ({currentYear})</h3>
           <BarChart width={500} height={300} data={hospitalData}>
             <XAxis dataKey="name" />
             <YAxis />
@@ -120,23 +120,28 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <StatCard
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>}
-              value={hospital.length}
-              label="Total Hospitals Registered"
+              value={hospital?.length}
+              label="Total Organizations Registered"
             />
             <StatCard
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>}
-              value={bloodBank.length}
-              label="Total Organizations"
+              value={bloodBank?.length}
+              label="Total Orphanage Registered"
+            />
+            <StatCard
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>}
+              value={bloodBank?.length}
+              label="Total Old Age Home Registered"
             />
             <StatCard
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>}
               value={users}
-              label="All Registered Donors"
+              label="All Registered Users"
             />
             <StatCard
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>}
               value={campaigns}
-              label="Upcoming Blood Drives"
+              label="Upcoming Event Drives"
             />
           </div>
         </div>

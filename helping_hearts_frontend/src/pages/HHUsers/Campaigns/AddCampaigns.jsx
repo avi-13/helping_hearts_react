@@ -99,7 +99,7 @@ export default function AddCampaigns() {
     formData.append("latitude", latitude);
     formData.append("longitude", longitude);
     formData.append("campaignImage", campaignImage);
-    formData.append("user", user._id);
+    formData.append("organization", user._id);
 
     // making Api call
     addCampaignApi(formData)
@@ -157,7 +157,7 @@ export default function AddCampaigns() {
             </p>
             <div>
               <button
-                className="inline-flex sm:ml-3 mt-1 sm:mt-0 items-start justify-start px-6 py-3 bg-[#111111] hover:bg-[#ff0000] text-white focus:outline-none rounded"
+                className="inline-flex sm:ml-3 mt-1 sm:mt-0 items-start justify-start px-6 py-3 bg-[#8BC53E] hover:bg-[#5b9015] text-white focus:outline-none rounded"
                 onClick={openModal}
               >
                 Add campaigns
@@ -512,7 +512,7 @@ export default function AddCampaigns() {
                   onClick={handleSubmit}
                   type="submit"
                   disabled={isLoading}
-                  className="w-full text-white bg-cyan-700 hover:bg-cyan-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="w-full text-white bg-[#8BC53E] hover:bg-[#5b9015] focus:ring-4 focus:outline-none focus:ring-[#8BC53E] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
                   {isLoading ? (
                     <CircularProgress size={20} color="inherit" />

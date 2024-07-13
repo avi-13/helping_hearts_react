@@ -14,7 +14,7 @@ import {
   fetchAllOrganizationsApi,
 } from "../../../apis/api";
 
-export default function AddBloodBanks() {
+export default function ViewOrganizations() {
   // useEffect for fetching all the products and showing in table
   const [bloodBank, setBloodBank] = useState([]);
 
@@ -36,7 +36,7 @@ export default function AddBloodBanks() {
     municipality: "",
   });
 
-  const fetchBloodBanks = async () => {
+  const fetchHomes = async () => {
     try {
       const response = await fetchAllOrganizationsApi();
       setBloodBank(response?.data?.allOrgs);
@@ -46,7 +46,7 @@ export default function AddBloodBanks() {
   };
 
   useEffect(() => {
-    fetchBloodBanks();
+    fetchHomes();
   }, [bbAddressSearch, bbNameSearch, bloodGroupsSearch, sortBy, sortOrder]);
 
   const handleFilterChange = (e) => {
@@ -158,7 +158,7 @@ export default function AddBloodBanks() {
         } else {
           closeModal();
           toast.success(res.data.message);
-          fetchBloodBanks();
+          fetchHomes();
         }
       })
       .catch((e) => {
@@ -177,7 +177,7 @@ export default function AddBloodBanks() {
       if (res.data.success === true) {
         toast.success(res.data.message);
         closedeleteModal(true);
-        fetchBloodBanks();
+        fetchHomes();
       } else {
         toast.error(res.data.message);
       }
@@ -190,7 +190,7 @@ export default function AddBloodBanks() {
         <div className="px-4 md:px-10 py-2 md:py-7 bg-gray-100 rounded-tl-lg rounded-tr-lg">
           <div className="sm:flex flex-row items-center justify-between">
             <p className="inline-flex sm:ml-3  sm:mt-0 items-start justify-start px-6 py-3  text-black focus:outline-none rounded">
-              Organizations
+              Old Age Homes
             </p>
           </div>
         </div>
@@ -227,24 +227,24 @@ export default function AddBloodBanks() {
               <thead>
                 <tr className="h-16 w-full text-sm leading-none text-gray-800">
                   <th className="font-normal text-left pl-4">
-                    BloodBank Image
+                    Old Age Home Image
                   </th>
                   <th className="font-normal text-left pl-12">
-                    BloodBank Name
+                    Old Age Home Name
                   </th>
                   <th className="font-normal text-left pl-12">Municipality</th>
                   <th className="font-normal text-left pl-12">Ward No.</th>
                   <th className="font-normal text-left pl-12">
-                    BloodBank Address
+                    Old Age Home Address
                   </th>
                   <th className="font-normal text-left pl-12">
-                    BloodBank Contact
+                    Old Age Home Contact
                   </th>
                   <th className="font-normal text-left pl-12">
-                    Operating Hours
+                    Old Age Home Hours
                   </th>
                   <th className="font-normal text-left pl-12">
-                    BLoodGroups Available
+                    Old Age Home Available
                   </th>
                   <th className="font-normal text-left pl-12">
                     SocialMedia Links

@@ -127,7 +127,7 @@ export default function Campaigns() {
                       </td>
                       <td className="pl-12">
                         <p className="text-sm font-medium leading-none text-gray-800">
-                          {item.user.fullName}
+                          {item.organization?.organizationName}
                         </p>
                       </td>
                       <td className="pl-12">

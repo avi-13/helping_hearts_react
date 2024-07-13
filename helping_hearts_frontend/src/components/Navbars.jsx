@@ -12,8 +12,6 @@ import { toast } from "react-toastify";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "Services", href: "#", current: false },
-  { name: "Donate", href: "/donation-form", current: false },
   { name: "About Us", href: "#", current: false },
   { name: "Contact Us", href: "#", current: false },
 ];
@@ -57,7 +55,7 @@ export default function Navbar() {
                   <Link to={"/"}>
                     <img
                       className="h-16 w-auto"
-                      src="assets/images/logo.png"
+                      src="/assets/images/logo.png"
                       alt="Helping Hearts"
                     />
                   </Link>
@@ -65,7 +63,7 @@ export default function Navbar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-2">
+                  <div className="flex justify-start space-x-2">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -93,7 +91,7 @@ export default function Navbar() {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={user.userImageUrl || "/assets/images/profile.png"}
                           alt=""
                         />
                       </MenuButton>
@@ -110,9 +108,9 @@ export default function Navbar() {
                         <MenuItem>
                           {({ focus }) => (
                             <Link
-                              to="/profile"
+                              to={`/profile/${user._id}`}
                               className={classNames(
-                                focus ? "bg-gray-100" : "",
+                                focus ? "bg-[#8BC53E]" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
@@ -123,13 +121,13 @@ export default function Navbar() {
                         <MenuItem>
                           {({ focus }) => (
                             <Link
-                              href="#"
+                              to={`/my-history/${user._id}`}
                               className={classNames(
-                                focus ? "bg-gray-100" : "",
+                                focus ? "bg-[#8BC53E]" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Settings
+                              History
                             </Link>
                           )}
                         </MenuItem>
@@ -138,7 +136,7 @@ export default function Navbar() {
                             <Link
                               onClick={logout}
                               className={classNames(
-                                focus ? "bg-gray-100" : "",
+                                focus ? "bg-[#8BC53E]" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
@@ -153,13 +151,13 @@ export default function Navbar() {
                   <div className="relative gap-3 ml-1 hidden sm:flex sm:flex-row md:items-center">
                     <Link
                       to="/login"
-                      className="w-full bg-[#8BC53E] text-white p-2 px-5 rounded"
+                      className="w-full hover:bg-[#487410] bg-[#8BC53E] bg text-white p-2 px-5 rounded"
                     >
                       LOGIN
                     </Link>
                     <Link
                       to="/signup"
-                      className="w-full bg-[#8BC53E] text-white p-2 px-5 rounded"
+                      className="w-full hover:bg-[#487410] bg-[#8BC53E] text-white p-2 px-5 rounded"
                     >
                       SIGNUP
                     </Link>

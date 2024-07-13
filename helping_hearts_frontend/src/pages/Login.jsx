@@ -9,13 +9,37 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailerror, setEmailError] = useState("");
+  const [passworderror, setPasswordError] = useState("");
+
+  const Validate = () => {
+    let isValid = true;
+    setEmailError("");
+    setPasswordError("");
+    if (email.trim() === "") {
+      setEmailError("Email is Required");
+      isValid = false;
+    }
+    if (email.trim() !== "" && !email.includes("@")) {
+      setEmailError("Invalid Email");
+      isValid = false;
+    }
+    if (password.trim() === "") {
+      setPasswordError("Password is Required");
+      isValid = false;
+    }
+    return isValid;
+  };
 
   const loginNow = (e) => {
+    e.preventDefault();
+    const isValid = Validate();
+    if (!isValid) return;
+
     const loginData = new FormData();
     loginData.append("email", email);
     loginData.append("password", password);
 
-    e.preventDefault();
     loginUserApi(loginData)
       .then((res) => {
         if (res.data.success === false) {
@@ -26,18 +50,18 @@ const Login = () => {
           const jsonDecode = JSON.stringify(res.data.userData);
           localStorage.setItem("user", jsonDecode);
           const userr = res.data.userData;
-          if (userr.isAdmin === false && userr?.isOrganization === false) {
-            navigate("/");
-            console.log(userr.isAdmin, userr?.isOrganization);
+          if (userr.isOrganization === true) {
+            navigate("/hh-dashboard");
             return;
-          } else if (userr.isAdmin === false && userr?.isOrganization === true) {
-            navigate("/hh/dashboard");
-            window.location.reload();
-            return;
-          } else {
+          } else if (userr.isAdmin === true) {
             navigate("/admin-dashboard");
             window.location.reload();
             return;
+          } else {
+            if (userr.isAdmin === false && userr.isOrganization === false) {
+              navigate("/");
+              return;
+            }
           }
         }
       })
@@ -73,10 +97,12 @@ const Login = () => {
                 </span>
                 <input
                   onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter Email"
                   type="email"
                   className="w-full pl-10 px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-[#8BC53E]"
                 />
               </div>
+              {emailerror && <p className="text-danger">{emailerror}</p>}
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">Password</label>
@@ -87,9 +113,11 @@ const Login = () => {
                 <input
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
+                  placeholder="Enter Password"
                   className="w-full pl-10 px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-[#8BC53E]"
                 />
               </div>
+              {passworderror && <p className="text-danger">{passworderror}</p>}
             </div>
             <div className="flex items-baseline justify-center">
               <button

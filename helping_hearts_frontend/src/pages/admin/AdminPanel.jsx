@@ -9,10 +9,12 @@ import HHRequests from "../HHUsers/HHRequests";
 import Campaigns from "./Campaigns";
 import Requests from "./Requests";
 import AdminDashboard from "./admin_dashboard/AdminDashboard";
-import ViewDonors from "./donors/DontaionManagement";
-import AddHospitals from "./hospitals/AddHospitals";
+import ViewDonors from "./donors/DonationManagement";
 import AddNews from "./news/ViewNews";
 import ViewOrganizations from "./organization/ViewOrganizations";
+import OrphanageManagement from "./orphanage_management/OrphanageManagement";
+import ContactManagement from "./orphanage_management/ContactManagement";
+import EditOrganization from "./organization/EditOrganization";
 function AdminPanel() {
   const storedPage = localStorage.getItem("currentPage");
   // Initialize the current page with the stored value or the default value
@@ -42,18 +44,23 @@ function AdminPanel() {
           : (content = <HHDashBoard />);
       }
       break;
-    case "Donors":
+    case "Donation Management":
       content = <ViewDonors />;
       break;
 
     case "Requests":
       content = <Requests />;
       break;
-    case "ViewOrganizations":
+
+    case "Orphanage Management":
+      content = <EditOrganization id={users._id} />
+      break;
+
+    case "View Organizations":
       content = <ViewOrganizations />;
       break;
-    case "AddHospitals":
-      content = <AddHospitals />;
+    case "ViewMessage":
+      content = <ContactManagement />;
       break;
     case "AddCampaigns":
       {
@@ -110,23 +117,25 @@ function AdminPanel() {
               </button>
             </li>
             <li
-              className={`adminLi ${currentPage === "Donors" ? "active" : ""}`}
+              className={`adminLi ${currentPage === "Donation Management" ? "active" : ""}`}
             >
-              <button onClick={() => setCurrentPage("Donors")} tabIndex="2">
+              <button onClick={() => setCurrentPage("Donation Management")} tabIndex="2">
                 Donation Management
               </button>
             </li>
             {users?.isOrganization ? (
               <li
                 className={`adminLi ${
-                  currentPage === "Blood Requests" ? "active" : ""
+                  currentPage === "Orphanage Management" ? "active" : ""
                 }`}
               >
                 <button
-                  onClick={() => setCurrentPage("Blood Requests")}
+                  onClick={() => setCurrentPage("Orphanage Management")}
                   tabIndex="3"
                 >
-                  Orphanage Management
+                  {users.organizationType === "oldagehome" ?
+                    "My Old Age Home" :
+                    "My Orphanage"}
                 </button>
               </li>
             ) : null}
@@ -146,14 +155,14 @@ function AdminPanel() {
             ) : null}
             <li
               className={`adminLi ${
-                currentPage === "AddHospitals" ? "active" : ""
+                currentPage === "ViewMessage" ? "active" : ""
               }`}
             >
               <button
-                onClick={() => setCurrentPage("AddHospitals")}
+                onClick={() => setCurrentPage("ViewMessage")}
                 tabIndex="4"
               >
-                {users?.isAdmin ? "AddHospitals" : "View Hospitals"}
+               Contact Messages
               </button>
             </li>
             {users?.isAdmin ? (
@@ -168,18 +177,6 @@ function AdminPanel() {
                     tabIndex="5"
                   >
                     News Section
-                  </button>
-                </li>
-                <li
-                  className={`adminLi ${
-                    currentPage === "Requests" ? "active" : ""
-                  }`}
-                >
-                  <button
-                    onClick={() => setCurrentPage("Requests")}
-                    tabIndex="5"
-                  >
-                    Requests
                   </button>
                 </li>
                 <li
